@@ -1,0 +1,20 @@
+-- Create folder hive/u_data in HDFS and copy u.data
+
+CREATE EXTERNAL TABLE ratings (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LOCATION '/user/ubuntu/hive/u_data';
+
+-- Create folder hive/u_item in HDFS and copy u.item
+
+CREATE EXTERNAL TABLE movie_list (
+   movie_id INT,
+   movie_title STRING,
+   release_dt STRING,
+   video_release_dt STRING,
+   imdb_link STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+LOCATION '/user/ubuntu/hive/u_item';

@@ -1,0 +1,52 @@
+
+# hadoop fs -copyToLocal /user/ubuntu/flume/4_flume_agents.txt
+
+## First-tier agent
+
+# Flume Components
+agent1.sources = source1 
+agent1.sinks = sink1
+agent1.channels = channel1
+
+# Source
+agent1.sources.source1.type = exec
+agent1.sources.source1.command = tail -F logfile.log
+agent1.sources.source1.channels = channel1
+
+# Define a sink that outputs to a source.
+agent1.sinks.sink1.channel = channel1 
+agent1.sinks.sink1.type = avro 
+agent1.sinks.sink1.hostname = 172.31.43.67
+agent1.sinks.sink1.port = 14000
+
+# Channels
+agent1.channels.channel1.type = memory
+
+
+## Second-tier agent
+
+# Flume Components
+agent2.sources = source2 
+agent2.sinks = sink2
+agent2.channels = channel2
+
+# Source as a sink
+agent2.sources.source2.channels = channel2
+agent2.sources.source2.type = avro 
+agent2.sources.source2.bind = 172.31.43.67
+agent2.sources.source2.port = 14000
+
+# Sink
+agent2.sinks.sink2.type = hdfs
+agent2.sinks.sink2.hdfs.path = flume/agent_tiers
+agent2.sinks.sink2.hdfs.fileType = DataStream
+agent2.sinks.sink2.hdfs.filePrefix = events
+agent2.sinks.sink2.hdfs.fileSuffix = .log
+agent2.sinks.sink2.channel = channel2
+
+# Channel
+agent2.channels.channel2.type = memory
+
+
+# flume-ng agent --conf /etc/flume-ng/conf -c conf -f 4_flume_agents.txt -Dflume.root.logger = INFO, console -n agent1
+# flume-ng agent --conf /etc/flume-ng/conf -c conf -f 4_flume_agents.txt -Dflume.root.logger = INFO, console -n agent2

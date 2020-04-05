@@ -1,0 +1,15 @@
+-- Create folder hive/ext_table in HDFS and copy u.data
+
+CREATE EXTERNAL TABLE IF NOT EXISTS ratings (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LOCATION '/user/ubuntu/hive/ext_table';
+
+
+DROP TABLE ratings;
+
+-- Browse to Browse to /user/ubuntu/hive/ext_table

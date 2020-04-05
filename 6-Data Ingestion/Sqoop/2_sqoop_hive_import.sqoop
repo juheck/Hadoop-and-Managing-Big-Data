@@ -1,0 +1,58 @@
+## Create database movielens in Hive
+
+#3 steps import into Hive: 
+
+# 1. import data to HDFS
+sqoop import \
+--connect jdbc:mysql://172.31.43.67:3306/movielens \
+--table genres -m 1 \
+--username ubuntu \
+--password ubuntu \
+--target-dir /user/ubuntu/sqoop/movielens/genres
+
+# 2. create table in Hive
+
+sqoop create-hive-table \
+--connect jdbc:mysql://172.31.43.67:3306/movielens \
+--table genres \
+--hive-table movielens.genres \
+--username ubuntu \
+--password ubuntu \
+--fields-terminated-by ','
+
+# 3. import data from HDFS to Hive
+
+#Run commands in Hive:
+Hive
+hive> show databases;
+hive> use movielens;
+hive> show tables;
+hive> select * from genres;
+hive> LOAD DATA INPATH "/user/ubuntu/sqoop/movielens/genres" OVERWRITE INTO TABLE genres; 
+hive> select * from genres;
+hive> exit;
+
+#run commands in Terminal
+ hadoop fs -ls /user/ubuntu/sqoop/movielens/genres
+ hadoop fs -ls /user/hive/warehouse/movielens.db/genres
+ hadoop fs -cat /user/hive/warehouse/movielens.db/genres/part-m-00000
+ 
+ 
+# Direct import into Hive
+
+sqoop import \
+--connect jdbc:mysql://172.31.43.67:3306/movielens \
+--table genres -m 1 \
+--hive-import \
+--hive-overwrite \
+--hive-table movielens.genres \
+--username ubuntu \
+--password ubuntu \
+--fields-terminated-by ',' 
+
+
+#run commands in Terminal 
+ hadoop fs -ls /user/hive/warehouse/movielens.db/genres
+ hadoop fs -cat /user/hive/warehouse/movielens.db/genres/part-m-00000
+ 
+ 

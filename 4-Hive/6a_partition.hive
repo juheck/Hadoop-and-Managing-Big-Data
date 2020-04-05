@@ -1,0 +1,17 @@
+-- Create folder hive/crime_la/crime_data_la and copy crime_data_la.csv
+
+CREATE EXTERNAL TABLE IF NOT EXISTS crime_data_la (
+   dr_number INT,
+   reported_dt DATE,
+   occured_dt DATE,
+   occured_tm INT,
+   area_id INT,
+   district_id INT,
+   crime_code INT,
+   victim_age INT,
+   victim_sex STRING,
+   victim_descent STRING,
+   coord_lat FLOAT,
+   coord_long FLOAT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+LOCATION '/user/ubuntu/hive/crime_la/crime_data_la';

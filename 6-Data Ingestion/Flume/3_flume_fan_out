@@ -1,0 +1,33 @@
+
+# hadoop fs -copyToLocal /user/ubuntu/flume/3_flume_fan_out.txt
+
+# Flume Components
+agent1.sources = tail-source
+agent1.sinks = local-sink hdfs-sink
+agent1.channels = local-memory-channel hdfs-memory-channel
+
+# Channels
+agent1.channels.local-memory-channel.type = memory
+agent1.channels.hdfs-memory-channel.type = memory
+
+# Source
+agent1.sources.tail-source.type = exec
+agent1.sources.tail-source.command = tail -F logfile.log
+agent1.sources.tail-source.channels =  local-memory-channel hdfs-memory-channel
+
+# Define a sink that outputs to local file.
+agent1.sinks.local-sink.type = file_roll
+agent1.sinks.local-sink.sink.directory = flume/replicate
+agent1.sinks.local-sink.sink.rollInterval = 90
+agent1.sinks.local-sink.channel = local-memory-channel
+
+# Define a sink that outputs to hdfs.
+agent1.sinks.hdfs-sink.type = hdfs
+agent1.sinks.hdfs-sink.hdfs.path = flume/replicate
+agent1.sinks.hdfs-sink.hdfs.fileType = DataStream
+agent1.sinks.hdfs-sink.hdfs.rollCount = 5
+agent1.sinks.hdfs-sink.hdfs.inUseSuffix = .tmp
+agent1.sinks.hdfs-sink.channel = hdfs-memory-channel
+
+
+# flume-ng agent --conf /etc/flume-ng/conf -c conf -f 3_flume_fan_out.txt -Dflume.root.logger = INFO, console -n agent1

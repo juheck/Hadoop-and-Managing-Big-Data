@@ -1,0 +1,12 @@
+-- Create folder hive/table_creation in HDFS and copy u.data
+
+CREATE TABLE ratings1 (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LOCATION '/user/ubuntu/hive/table_creation';
+
+SELECT * FROM ratings1
+LIMIT 100;

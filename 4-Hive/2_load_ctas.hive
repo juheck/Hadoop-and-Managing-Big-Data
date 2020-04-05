@@ -1,0 +1,25 @@
+---- 1. LOAD
+
+CREATE TABLE IF NOT EXISTS ratings2 (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+-- Create folder hive/table_load in HDFS and copy u.data
+
+LOAD DATA INPATH '/user/ubuntu/hive/table_load'
+INTO TABLE ratings2;
+
+-- Browse to /user/ubuntu/hive/table_load
+-- Browse to /user/hive/warehouse/ratings2;
+
+
+---- 2. CTAS
+
+CREATE TABLE ratings_ctas
+AS
+SELECT * FROM ratings1;
+
+-- Browse to /user/hive/warehouse/ratings_ctas

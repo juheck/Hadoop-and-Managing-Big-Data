@@ -1,0 +1,16 @@
+---- 3. INSERT INTO
+
+INSERT INTO TABLE ratings_ctas
+SELECT s.* FROM ratings1 s;
+
+-- Browse to /user/hive/warehouse/ratings_ctas
+
+
+---- 4. INSERT OVERWRITE
+
+INSERT OVERWRITE TABLE ratings_ctas
+SELECT s.* FROM ratings1 s;
+
+-- Browse to /user/hive/warehouse/ratings_ctas
+
+

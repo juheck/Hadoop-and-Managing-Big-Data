@@ -1,0 +1,10 @@
+-- Find the most popular/rated movie
+
+CREATE VIEW topMovieIDs AS
+SELECT movieID, count(movieID) as ratingCount
+FROM ratings
+GROUP BY movieID
+ORDER BY ratingCount DESC;
+
+SELECT m.movie_title, ratingCount
+FROM topMovieIDs t JOIN movie_list m on t.movieID = m.movie_id;

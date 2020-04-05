@@ -1,0 +1,15 @@
+SELECT r.userid, r.movieid, m.movie_title, r.rating
+FROM ratings r INNER JOIN movie_list m 
+ON r.movieid = m.movie_id;
+
+SELECT r.userid, r.movieid, m.movie_title, r.rating
+FROM ratings r LEFT JOIN movie_list m 
+ON r.movieid = m.movie_id;
+
+SELECT r.userid, r.movieid, m.movie_title, r.rating
+FROM ratings r RIGHT JOIN movie_list m 
+ON r.movieid = m.movie_id;
+
+SELECT r.userid, r.movieid, m.movie_title, r.rating
+FROM ratings r FULL JOIN movie_list m 
+ON r.movieid = m.movie_id;

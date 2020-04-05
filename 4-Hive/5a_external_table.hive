@@ -1,0 +1,16 @@
+CREATE EXTERNAL TABLE IF NOT EXISTS ratings (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t';
+
+-- Create folder hive/ext_table in HDFS and copy u.data
+
+LOAD DATA INPATH '/user/ubuntu/hive/ext_table'
+OVERWRITE INTO TABLE ratings;
+
+DROP TABLE ratings;
+
+-- Browse to Browse to /user/hive/warehouse/ratings

@@ -1,0 +1,23 @@
+
+# Create table in MySQL
+ mysql -u ubuntu -p
+
+mysql> use movielens;
+mysql> create table genres_export (id INT, name VARCHAR(255));
+mysql> exit;
+
+# Export data from hive warehouse to mysql
+
+sqoop export \
+--connect jdbc:mysql://172.31.43.67:3306/movielens -m 1 \
+--table genres_export \
+--export-dir /user/hive/warehouse/movielens.db/genres \
+--username ubuntu \
+--password ubuntu 
+
+# Check the exported table in mysql
+
+mysql -u root -p
+use movielens;
+show tables;
+select * from enres_export limit 10;

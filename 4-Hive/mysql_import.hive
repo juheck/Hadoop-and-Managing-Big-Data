@@ -1,0 +1,23 @@
+CREATE TABLE crime_data_la
+(dr_number int, date_reported varchar(255), date_occured varchar(255), tm_occured int, area_id int , reporting_district int, crime_code int, victime_age int,
+victim_sex varchar(255), victim_descent varchar(255), location varchar(255));
+
+
+CREATE TABLE area_lookup (area_id int, area_name varchar(255));
+
+
+LOAD DATA LOCAL INFILE 'crime_data_la_sample.csv'
+INTO TABLE crime_data_la
+FIELDS TERMINATED BY ','
+  OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+(dr_number, date_reported, date_occured,tm_occured,area_id, reporting_district, crime_code, victime_age,
+victim_sex, victim_descent,	location);
+
+
+LOAD DATA LOCAL INFILE 'crime_data_area_name.csv'
+INTO TABLE area_lookup
+FIELDS TERMINATED BY ','
+    ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+(area_id, area_name);

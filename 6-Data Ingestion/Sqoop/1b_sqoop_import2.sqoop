@@ -1,0 +1,38 @@
+# Create table in movielens
+mysql -u root -p
+
+use movielens;
+
+create table users_replica as select u.id, u.age, u.gender, 
+u.occupation_id, o.name as occupation
+from users u LEFT JOIN occupations o
+ON u.occupation_id = o.id;
+
+select * from users_replica limit 10;
+
+# Alter table
+alter table users_replica add primary key (id);
+alter table users_replica add column (salary int, generation varchar(100));
+update users_replica set salary = 120000 where occupation = 'Lawyer';
+update users_replica set salary = 100000 where occupation = 'Engineer';
+update users_replica set salary = 80000 where occupation = 'Programmer';
+update users_replica set salary = 0 where occupation = 'Student';
+update users_replica set generation  = 'Millenial'  where age<35;
+update users_replica set generation  = 'Boomer'  where age>55;
+exit;
+
+# Run Sqoop job
+
+sqoop import \
+--connect jdbc:mysql://172.31.32.133:3306/movielens \
+--username ubuntu \
+--password ubuntu \
+--table users_replica \
+--target-dir /user/ubuntu/sqoop/movielens/users \
+--fields-terminated-by '|' \
+--lines-terminated-by '\n' \
+-m 3 \
+--where "id between 1 and 300" \
+--null-non-string -1 \
+--null-string "NA"
+   

@@ -1,0 +1,26 @@
+CREATE TABLE ratings1 (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t'
+LOCATION '/user/ubuntu/hive/table_creation';
+
+CREATE TABLE IF NOT EXISTS ratings2 (
+   userID INT,
+   movieID INT,
+   rating INT,
+   time INT)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '\t';
+
+LOAD DATA INPATH '/user/ubuntu/hive/table_load'
+INTO TABLE ratings2;
+
+
+DROP TABLE ratings1;
+
+--Browse to /user/ubuntu/hive/table_creation;
+
+DROP TABLE ratings2;
+
+--Browse to /user/hive/warehouse/ratings2;

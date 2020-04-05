@@ -1,0 +1,39 @@
+#Launch HBase shell
+hbase shell
+
+create 'my-hbase-table', \
+{NAME => 'cf1', VERSIONS => 3}, \
+{NAME => 'cf2'}
+
+
+put 'my-hbase-table', 'rowkey1', 'cf1:fname', 'John'
+put 'my-hbase-table', 'rowkey1', 'cf1:lname', 'Doe'
+put 'my-hbase-table', 'rowkey2', 'cf1:fname', 'Jeffrey'
+put 'my-hbase-table', 'rowkey2', 'cf1:lname', 'Aven'
+put 'my-hbase-table', 'rowkey2', 'cf1:city', 'Hayward'
+put 'my-hbase-table', 'rowkey2', 'cf2:photo', '<image>'
+
+scan 'my-hbase-table'
+
+# update a cell
+put 'my-hbase-table', 'rowkey2', 'cf1:city', 'Melbourne'
+# get the latest version of a cell
+get 'my-hbase-table', 'rowkey2', {COLUMNS => ['cf1:city']}
+
+# get multiple versions of a cell
+get 'my-hbase-table', 'rowkey2', {COLUMNS => ['cf1:city'], VERSIONS => 2}
+
+
+
+hbase(main):001:0> create 'test', 'cf' 
+hbase(main):002:0> list
+
+hbase(main):003:0> put 'test', 'row1', 'cf:a', 'value1' 
+hbase(main):004:0> put 'test', 'row2', 'cf:b', 'value2' 
+hbase(main):005:0> put 'test', 'row3', 'cf:c', 'value3'
+
+hbase(main):006:0> scan 'test'
+hbase(main):007:0> get 'test', 'row1'
+
+hbase(main):008:0> disable 'test' 
+hbase(main):009:0> drop 'test'

@@ -1,0 +1,12 @@
+ALTER TABLE crime_la_part DROP IF EXISTS PARTITION(year_rept  = 2017);
+
+SHOW PARTITIONS crime_la_part;
+
+SELECT * FROM crime_la_part
+WHERE YEAR(reported_dt) = 2017;
+
+-- Browse to /user/hive/warehouse/crime_la_part/
+
+ALTER TABLE crime_la_part DROP IF EXISTS PARTITION(year_rept  = 2016);
+
+-- Browse to /user/hive/warehouse/crime_la_part/

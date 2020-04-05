@@ -1,0 +1,33 @@
+CREATE TABLE IF NOT EXISTS crime_la_part (
+   dr_number INT,
+   reported_dt DATE,
+   occured_dt DATE,
+   occured_tm INT,
+   area_id INT,
+   district_id INT,
+   crime_code INT,
+   victim_age INT,
+   victim_sex STRING,
+   victim_descent STRING,
+   coord_lat FLOAT,
+   coord_long FLOAT)
+PARTITIONED BY (year_rept STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ','
+;
+
+INSERT OVERWRITE TABLE crime_la_part
+PARTITION (year_rept = 2017)
+SELECT * FROM crime_data_la c
+WHERE YEAR(c.reported_dt) = 2017;
+
+INSERT OVERWRITE TABLE crime_la_part
+PARTITION (year_rept = 2016)
+SELECT * FROM crime_data_la c
+WHERE YEAR(c.reported_dt) = 2016;
+
+SHOW PARTITIONS crime_la_part;
+
+DESCRIBE FORMATTED crime_la_part;
+
+-- Browse to /user/hive/warehouse/movielens.db/crime_la_part/year_rept=2016
+-- Browse to /user/hive/warehouse/movielens.db/crime_la_part/year_rept=2017

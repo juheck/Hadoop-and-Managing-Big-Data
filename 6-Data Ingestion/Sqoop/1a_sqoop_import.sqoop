@@ -1,0 +1,10 @@
+# Run in HUE
+# movielens DB must be created in MySQL using movielens.sql
+
+sqoop import --connect jdbc:mysql://172.31.43.67:3306/movielens --table genres --username ubuntu --password ubuntu --target-dir /user/ubuntu/sqoop/movielens/genres
+
+sqoop import --connect jdbc:mysql://172.31.43.67:3306/movielens --table genres -m 2 --username ubuntu --password ubuntu --target-dir /user/ubuntu/sqoop/movielens/genres2
+
+sqoop import --connect jdbc:mysql://172.31.43.67:3306/movielens --table genres -m 1 --username ubuntu --password ubuntu --target-dir /user/ubuntu/sqoop/movielens/genres3 --fields-terminated-by '\t' --enclosed-by '"'
+
+sqoop import --connect jdbc:mysql://172.31.43.67:3306/movielens --table genres --columns "id, name" --where "id > 5" -m 1 --username ubuntu --password ubuntu --target-dir /user/ubuntu/sqoop/movielens/genres4

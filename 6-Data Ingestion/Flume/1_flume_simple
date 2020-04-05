@@ -1,0 +1,27 @@
+
+# hadoop fs -copyToLocal /user/ubuntu/flume/write_to_file.sh
+# chmod 600 write_to_file.sh
+# hadoop fs -copyToLocal /user/ubuntu/flume/1_flume_simple.txt
+
+# Flume Components
+agent1.sources = source1 
+agent1.sinks = sink1
+agent1.channels = channel1
+
+# Source
+agent1.sources.source1.type = exec
+agent1.sources.source1.command = tail -f logfile.log
+agent1.sources.source1.channels = channel1
+
+# Sink
+#agent1.sinks.sink1.type = hdfs
+#agent1.sinks.sink1.hdfs.path = flume/simple
+#agent1.sinks.sink1.hdfs.fileType = DataStream
+agent1.sinks.sink1.type = logger
+agent1.sinks.sink1.channel = channel1
+
+# Channel
+agent1.channels.channel1.type = memory
+
+
+# flume-ng agent --con
